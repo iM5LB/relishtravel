@@ -218,7 +218,19 @@ public class ConfigManager {
     }
     
     public boolean isBlockVanillaAchievements() {
-        return config.getBoolean("achievements.block-vanilla-achievements", false);
+        return config.getBoolean("achievements.block-vanilla-achievements", true);
+    }
+    
+    public boolean isGrantRelishAchievement() {
+        return config.getBoolean("achievements.grant-relish-achievement", true);
+    }
+    
+    public String getCustomAchievementTitle() {
+        return config.getString("achievements.custom-achievement.title", "Sky Traveler");
+    }
+    
+    public String getCustomAchievementDescription() {
+        return config.getString("achievements.custom-achievement.description", "Soar through the skies with RelishTravel. Sneak while gliding to boost!");
     }
     
     public String getLanguage() {

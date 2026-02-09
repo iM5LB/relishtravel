@@ -165,6 +165,7 @@ public class RelishTravel extends JavaPlugin {
         ElytraProtectionListener elytraProtectionListener = new ElytraProtectionListener(this, launchHandler);
         PersistenceListener persistenceListener = new PersistenceListener(this, persistenceHandler);
         UpdateNotifyListener updateNotifyListener = new UpdateNotifyListener(this);
+        relish.relishTravel.listener.AchievementListener achievementListener = new relish.relishTravel.listener.AchievementListener(this, configManager);
         
         getServer().getPluginManager().registerEvents(chargeListener, this);
         getServer().getPluginManager().registerEvents(launchListener, this);
@@ -173,7 +174,8 @@ public class RelishTravel extends JavaPlugin {
         getServer().getPluginManager().registerEvents(elytraProtectionListener, this);
         getServer().getPluginManager().registerEvents(persistenceListener, this);
         getServer().getPluginManager().registerEvents(updateNotifyListener, this);
-        debug("Registered 7 listeners");
+        getServer().getPluginManager().registerEvents(achievementListener, this);
+        debug("Registered 8 listeners");
     }
     
     private void registerCommands() {

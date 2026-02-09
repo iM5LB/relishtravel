@@ -85,6 +85,7 @@ public class ElytraHandler {
             ItemMeta meta = virtualElytra.getItemMeta();
             if (meta != null) {
                 meta.setUnbreakable(true);
+                meta.setDisplayName("§bRelishTravel Elytra");
                 virtualElytra.setItemMeta(meta);
             }
             
