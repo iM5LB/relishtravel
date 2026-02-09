@@ -25,8 +25,18 @@ RelishTravel transforms the Elytra flight experience by adding:
 ### ⚡ Launch System
 Sneak + Jump, then land to start charging. The longer you charge (up to 2.5 seconds), the more powerful your launch will be. Visual and audio feedback shows your charge progress.
 
+
+https://github.com/user-attachments/assets/e91afb57-06f3-4052-828e-2c662cffe5f7
+
+
+
+
 ### 🚀 Boost System
 While gliding, sneak to activate speed boosts. Permission-based limits allow you to create VIP tiers with different boost counts.
+
+
+https://github.com/user-attachments/assets/2a5fb5b2-a45a-43ac-8195-baeae06fd903
+
 
 ### 🛡️ Safety Features
 - Fall damage prevention after RelishTravel flights
@@ -60,5 +70,6 @@ While gliding, sneak to activate speed boosts. Permission-based limits allow you
 2. [Configure the plugin](Configuration.md)
 3. [Set up permissions](Permissions.md)
 4. [Learn the commands](Commands.md)
+
 
 
