@@ -1,6 +1,7 @@
 # RelishTravel Documentation
 
 Welcome to the official documentation for **RelishTravel** - a safe, controlled Elytra launch system with automatic gliding for Minecraft 1.20+.
+
 <img width="1493" height="861" alt="image" src="https://github.com/user-attachments/assets/5ed35962-d28c-424f-87b1-62646ba77dd1" />
 
 ## What is RelishTravel?
@@ -59,4 +60,5 @@ While gliding, sneak to activate speed boosts. Permission-based limits allow you
 2. [Configure the plugin](Configuration.md)
 3. [Set up permissions](Permissions.md)
 4. [Learn the commands](Commands.md)
+
 
