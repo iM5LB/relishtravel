@@ -2,9 +2,7 @@
 
 ## 🪽 Safe, controlled Elytra launch system with automatic gliding 🪽
 
-![RelishTravel-Logo](https://via.placeholder.com/800x200/00d9ff/ffffff?text=RelishTravel)
-
-<!-- Replace with your banner/logo -->
+<img width="1493" height="861" alt="RelishTravel-Banner" src="https://github.com/user-attachments/assets/4eada0f2-e554-49ed-b3fc-e9d598407c7f" />
 
 </div>
 
@@ -36,8 +34,7 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 
 <div align="center">
 
-<!-- Add charging GIF here -->
-![Charging System](https://via.placeholder.com/600x300/00d9ff/ffffff?text=Charging+Animation)
+https://github.com/user-attachments/assets/ed0b6eed-ad12-47e8-a185-75275f2c3f59
 
 *Sneak + Jump, land to charge, release to launch*
 
@@ -51,8 +48,7 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 
 <div align="center">
 
-<!-- Add boost GIF here -->
-![Boost System](https://via.placeholder.com/600x300/00d9ff/ffffff?text=Boost+Animation)
+https://github.com/user-attachments/assets/3d8613da-faad-4575-a946-9149bc1f801a
 
 *Sneak while gliding to boost*
 
@@ -88,8 +84,6 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 
 <div align="center">
 
-<!-- Add effects showcase GIF here -->
-![Visual Effects](https://via.placeholder.com/600x300/00d9ff/ffffff?text=Effects+Showcase)
 
 *Customizable particles and sounds*
 
@@ -202,4 +196,5 @@ Create custom languages in `lang/[code].yml`
 
 **Made with ❤️ by M5LB**
 </div>
+
 
