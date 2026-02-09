@@ -2,9 +2,7 @@
 
 ## Safe, controlled Elytra launch system with automatic gliding
 
-![RelishTravel-Logo](https://via.placeholder.com/800x200/00d9ff/ffffff?text=RelishTravel)
-
-<!-- Replace with your banner/logo -->
+<img width="1493" height="861" alt="RelishTravel-Banner" src="https://github.com/user-attachments/assets/7d674cfe-d020-4428-9cc5-0d99c1f7e907" />
 
 </div>
 
@@ -36,8 +34,10 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 
 <div align="center">
 
-<!-- Add charging GIF here -->
-![Charging System](https://via.placeholder.com/600x300/00d9ff/ffffff?text=Charging+Animation)
+
+
+https://github.com/user-attachments/assets/593b7d78-3453-4b0b-b619-c18e341d1d53
+
 
 *Sneak + Jump, land to charge, release to launch*
 
@@ -51,8 +51,10 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 
 <div align="center">
 
-<!-- Add boost GIF here -->
-![Boost System](https://via.placeholder.com/600x300/00d9ff/ffffff?text=Boost+Animation)
+
+https://github.com/user-attachments/assets/2ae6bc3f-3d13-4235-a1a7-dca80c5bd4b3
+
+
 
 *Sneak while gliding to boost*
 
@@ -88,8 +90,7 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 
 <div align="center">
 
-<!-- Add effects showcase GIF here -->
-![Visual Effects](https://via.placeholder.com/600x300/00d9ff/ffffff?text=Effects+Showcase)
+
 
 *Customizable particles and sounds*
 
@@ -193,6 +194,7 @@ Create custom languages in `lang/[code].yml`
 [![Documentation](https://img.shields.io/badge/Docs-Read-blue?style=for-the-badge&logo=gitbook)](https://im5lb.github.io/relishtravel)
 [![Issues](https://img.shields.io/badge/🐛%20Issues-Report-orange?style=for-the-badge)](https://github.com/iM5LB/relishtravel/issues)
 [![GitHub](https://img.shields.io/badge/GitHub-Source-black?style=for-the-badge&logo=github)](https://github.com/im5lb/RelishTravel)
+[![Donate](https://img.shields.io/badge/💖%20Donate-Love-ff69b4?style=for-the-badge)](https://creators.sa/m5lb)
 
 </div>
 
@@ -202,3 +204,4 @@ Create custom languages in `lang/[code].yml`
 
 **Made with ❤️ by M5LB**
 </div>
+
