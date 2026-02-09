@@ -1,6 +1,6 @@
 <div align="center">
 
-## 🪽 Safe, controlled Elytra launch system with automatic gliding 🪽
+## Safe, controlled Elytra launch system with automatic gliding
 
 <img width="1493" height="861" alt="RelishTravel-Banner" src="https://github.com/user-attachments/assets/4eada0f2-e554-49ed-b3fc-e9d598407c7f" />
 
@@ -196,5 +196,6 @@ Create custom languages in `lang/[code].yml`
 
 **Made with ❤️ by M5LB**
 </div>
+
 
 
