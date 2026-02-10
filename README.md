@@ -37,15 +37,6 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 
 <p align="center"><em>Sneak + Jump, land to charge, release to launch</em></p>
 
-<div align="center">
-
-![Charging System](https://github.com/user-attachments/assets/b9c39ea5-9264-4296-a432-c2d64d6950d8)
-
-
-*Sneak + Jump, land to charge, release to launch*
-
-</div>
-
 
 
 ### Launch System
@@ -53,14 +44,11 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 - Release sneak to launch with power based on charge level
 - Automatically opens Elytra and starts gliding
 - Virtual Elytra for players without one
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/022aecb2-0d81-4b4b-886e-785110e3685f" width="100%" alt="Boost System GIF">
+</p>
 
-<div align="center">
-
-![Boost System](https://github.com/user-attachments/assets/022aecb2-0d81-4b4b-886e-785110e3685f)
-
-*Sneak while gliding to boost*
-
-</div>
+<p align="center"><em>*Sneak while gliding to boost*</em></p>
 
 ### Boost System
 - Sneak while gliding for speed bursts
@@ -90,14 +78,12 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 - Real-time speed display
 - Boost counter in action bar
 
-<div align="center">
 
-![Customizable particles and sounds](https://github.com/user-attachments/assets/d4df663a-1a12-41fc-b7ba-d929fa6bafce)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d4df663a-1a12-41fc-b7ba-d929fa6bafce" width="100%" alt="*Customizable particles and sounds* GIF">
+</p>
 
-
-*Customizable particles and sounds*
-
-</div>
+<p align="center"><em>*Customizable particles and sounds*</em></p>
 
 ---
 
@@ -207,6 +193,7 @@ Create custom languages in `lang/[code].yml`
 
 **Made with ❤️ by M5LB**
 </div>
+
 
 
 
