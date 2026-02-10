@@ -32,11 +32,13 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 
 ## 🎮 **How It Works**
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/02371fb4-4315-4889-a870-2e8c1d427c57" alt="Charging System" />
-</p>
+<div align="center">
+![Charging System](https://github.com/user-attachments/assets/02371fb4-4315-4889-a870-2e8c1d427c57)
 
-<p align="center"><em>Sneak + Jump, land to charge, release to launch</em></p>
+
+*Sneak + Jump, land to charge, release to launch*
+
+</div>
 
 
 
@@ -46,7 +48,7 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 - Automatically opens Elytra and starts gliding
 - Virtual Elytra for players without one
 
-<div align="center" style="max-width: 100%;>
+<div align="center">
 
 
 ![Boost System](https://github.com/user-attachments/assets/022aecb2-0d81-4b4b-886e-785110e3685f)
