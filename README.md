@@ -49,7 +49,7 @@ RelishTravel transforms Elytra flight with charge-based launching, mid-air boost
 - Automatically opens Elytra and starts gliding
 - Virtual Elytra for players without one
 
-<div align="center">
+<div align="center" style="max-width: 100%;>
 
 
 ![Boost System](https://github.com/user-attachments/assets/022aecb2-0d81-4b4b-886e-785110e3685f)
@@ -206,5 +206,6 @@ Create custom languages in `lang/[code].yml`
 
 **Made with ❤️ by M5LB**
 </div>
+
 
 
