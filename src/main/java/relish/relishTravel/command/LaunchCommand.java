@@ -1,5 +1,6 @@
 package relish.relishTravel.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,31 +29,57 @@ public class LaunchCommand implements CommandExecutor, TabCompleter {
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player player)) {
-            messages.sendConsoleMessage("command.players-only");
-            return true;
-        }
-        
-        if (!player.hasPermission("relishtravel.fastlaunch")) {
-            messages.sendMessage(player, "command.launch.no-permission");
-            return true;
-        }
-        
-        int percent = 100;
-        if (args.length > 0) {
-            try {
-                percent = Integer.parseInt(args[0]);
-                if (percent < 0 || percent > 100) {
-                    messages.sendMessage(player, "command.launch.invalid-percent");
-                    return true;
-                }
-            } catch (NumberFormatException e) {
-                messages.sendMessage(player, "command.launch.invalid-format");
+        if (sender instanceof Player player) {
+            if (!player.hasPermission("relishtravel.fastlaunch")) {
+                messages.sendMessage(player, "command.launch.no-permission");
                 return true;
             }
+            
+            int percent = 100;
+            if (args.length > 0) {
+                try {
+                    percent = Integer.parseInt(args[0]);
+                    if (percent < 0 || percent > 100) {
+                        messages.sendMessage(player, "command.launch.invalid-percent");
+                        return true;
+                    }
+                } catch (NumberFormatException e) {
+                    messages.sendMessage(player, "command.launch.invalid-format");
+                    return true;
+                }
+            }
+            
+            executeInstantLaunch(player, percent);
+        } else {
+            if (args.length < 1) {
+                sender.sendMessage("§cUsage: /rtl <player> [percent]");
+                return true;
+            }
+            
+            Player target = Bukkit.getPlayer(args[0]);
+            if (target == null) {
+                sender.sendMessage("§cPlayer not found: " + args[0]);
+                return true;
+            }
+            
+            int percent = 100;
+            if (args.length > 1) {
+                try {
+                    percent = Integer.parseInt(args[1]);
+                    if (percent < 0 || percent > 100) {
+                        sender.sendMessage("§cPercent must be between 0 and 100");
+                        return true;
+                    }
+                } catch (NumberFormatException e) {
+                    sender.sendMessage("§cInvalid percent format");
+                    return true;
+                }
+            }
+            
+            executeInstantLaunch(target, percent);
+            sender.sendMessage("§aLaunched " + target.getName() + " at " + percent + "%");
         }
         
-        executeInstantLaunch(player, percent);
         return true;
     }
     
@@ -110,11 +137,24 @@ public class LaunchCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> suggestions = new ArrayList<>();
         
-        if (args.length == 1) {
-            suggestions.add("25");
-            suggestions.add("50");
-            suggestions.add("75");
-            suggestions.add("100");
+        if (sender instanceof Player) {
+            if (args.length == 1) {
+                suggestions.add("25");
+                suggestions.add("50");
+                suggestions.add("75");
+                suggestions.add("100");
+            }
+        } else {
+            if (args.length == 1) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    suggestions.add(player.getName());
+                }
+            } else if (args.length == 2) {
+                suggestions.add("25");
+                suggestions.add("50");
+                suggestions.add("75");
+                suggestions.add("100");
+            }
         }
         
         return suggestions;

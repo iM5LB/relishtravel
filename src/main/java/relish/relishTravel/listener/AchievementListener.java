@@ -1,95 +1,139 @@
 package relish.relishTravel.listener;
 
+import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Material;
+import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
 import relish.relishTravel.RelishTravel;
 import relish.relishTravel.config.ConfigManager;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class AchievementListener implements Listener {
-    
+
+    private static final Set<String> ELYTRA_ADVANCEMENT_KEYS = Set.of(
+        "elytra",        // Legacy/fallback key
+        "story/elytra",  // Legacy/fallback key
+        "end/elytra"     // Vanilla 1.20+ key
+    );
+
+    private static final long CUSTOM_ANNOUNCE_DEDUPE_MS = 3000L;
+
     private final RelishTravel plugin;
     private final ConfigManager config;
-    
+    private final ConcurrentHashMap<UUID, Long> lastCustomAnnounce = new ConcurrentHashMap<>();
+
     public AchievementListener(RelishTravel plugin, ConfigManager config) {
         this.plugin = plugin;
         this.config = config;
     }
-    
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onCriterionGrant(PlayerAdvancementCriterionGrantEvent event) {
+        if (!config.isBlockVanillaAchievements()) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        String advancementKey = event.getAdvancement().getKey().getKey();
+
+        if (!ELYTRA_ADVANCEMENT_KEYS.contains(advancementKey) || !isUsingVirtualElytra(player)) {
+            return;
+        }
+
+        // Cancel criterion grant so vanilla advancement is not completed/announced.
+        event.setCancelled(true);
+
+        if (config.isDebugMode()) {
+            plugin.getLogger().info("[DEBUG] Cancelled vanilla elytra criterion for " + player.getName() + " (using virtual elytra)");
+        }
+
+        if (config.isGrantRelishAchievement() && shouldAnnounceCustom(player.getUniqueId())) {
+            grantCustomAchievement(player);
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlayerAdvancement(PlayerAdvancementDoneEvent event) {
         if (!config.isBlockVanillaAchievements()) {
             return;
         }
-        
+
         Player player = event.getPlayer();
         String advancementKey = event.getAdvancement().getKey().getKey();
-        
-        // Block elytra-related achievements if using virtual elytra
-        if (advancementKey.equals("elytra") || advancementKey.equals("story/elytra")) {
-            ItemStack chestplate = player.getInventory().getChestplate();
-            
-            if (chestplate != null && chestplate.getType() == Material.ELYTRA) {
-                // Check if it's a virtual elytra
-                if (isVirtualElytra(chestplate)) {
-                    if (config.isDebugMode()) {
-                        plugin.getLogger().info("[DEBUG] Blocked vanilla elytra achievement for " + player.getName() + " (using virtual elytra)");
-                    }
-                    
-                    // Revoke the advancement immediately
-                    plugin.getServer().getScheduler().runTask(plugin, () -> {
-                        player.getAdvancementProgress(event.getAdvancement()).getAwardedCriteria().forEach(criteria -> {
-                            player.getAdvancementProgress(event.getAdvancement()).revokeCriteria(criteria);
-                        });
-                    });
-                    
-                    // Grant custom achievement if enabled
-                    if (config.isGrantRelishAchievement()) {
-                        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                            grantCustomAchievement(player);
-                        }, 2L);
-                    }
-                }
-            }
+
+        if (!ELYTRA_ADVANCEMENT_KEYS.contains(advancementKey) || !isUsingVirtualElytra(player)) {
+            return;
+        }
+
+        // Fallback: revoke criteria if advancement done still fires on this server build.
+        AdvancementProgress progress = player.getAdvancementProgress(event.getAdvancement());
+        Set<String> criteria = new HashSet<>(progress.getAwardedCriteria());
+        criteria.forEach(progress::revokeCriteria);
+
+        if (config.isDebugMode()) {
+            plugin.getLogger().info("[DEBUG] Revoked vanilla elytra advancement for " + player.getName() + " (fallback path)");
+        }
+
+        if (config.isGrantRelishAchievement() && shouldAnnounceCustom(player.getUniqueId())) {
+            grantCustomAchievement(player);
         }
     }
-    
+
+    private boolean shouldAnnounceCustom(UUID playerId) {
+        long now = System.currentTimeMillis();
+        Long last = lastCustomAnnounce.get(playerId);
+
+        if (last != null && (now - last) < CUSTOM_ANNOUNCE_DEDUPE_MS) {
+            return false;
+        }
+
+        lastCustomAnnounce.put(playerId, now);
+        return true;
+    }
+
+    private boolean isUsingVirtualElytra(Player player) {
+        ItemStack chestplate = player.getInventory().getChestplate();
+        return isVirtualElytra(chestplate);
+    }
+
     private boolean isVirtualElytra(ItemStack item) {
-        if (item == null || item.getType() != Material.ELYTRA) {
+        if (item == null || item.getType() != Material.ELYTRA || !item.hasItemMeta()) {
             return false;
         }
-        
-        if (!item.hasItemMeta()) {
-            return false;
-        }
-        
+
         ItemMeta meta = item.getItemMeta();
-        
-        // Check if it's unbreakable and has RelishTravel display name
-        return meta.isUnbreakable() && 
-               meta.hasDisplayName() &&
-               meta.getDisplayName().contains("RelishTravel");
+
+        // Virtual elytra is marked unbreakable with plugin marker in display name.
+        return meta.isUnbreakable() && meta.hasDisplayName() && meta.getDisplayName().contains("RelishTravel");
     }
-    
+
     private void grantCustomAchievement(Player player) {
         String title = config.getCustomAchievementTitle();
         String description = config.getCustomAchievementDescription();
-        
-        // Send in chat like vanilla achievements
-        // Format: [PlayerName] has made the advancement [Achievement Title]
-        String message = "§e" + player.getName() + " §rhas made the advancement §a[" + title + "]";
-        
-        // Broadcast to all players (like vanilla)
-        plugin.getServer().broadcastMessage(message);
-        
-        // Send hover message to player only
-        player.sendMessage("§7" + description);
-        
+
+        Component advancementComponent = Component.text("[" + title + "]", NamedTextColor.GREEN)
+            .hoverEvent(HoverEvent.showText(Component.text(description, NamedTextColor.GRAY)));
+
+        // Keep player name styling as-is (vanilla-like), no forced name color.
+        Component message = player.displayName()
+            .append(Component.text(" has made the advancement ", NamedTextColor.GRAY))
+            .append(advancementComponent);
+
+        plugin.getServer().broadcast(message);
+
         if (config.isDebugMode()) {
             plugin.getLogger().info("[DEBUG] Granted custom achievement to " + player.getName() + ": " + title);
         }
