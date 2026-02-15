@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import relish.relishTravel.RelishTravel;
 import relish.relishTravel.config.ConfigManager;
 
@@ -33,11 +35,13 @@ public class AchievementListener implements Listener {
 
     private final RelishTravel plugin;
     private final ConfigManager config;
+    private final NamespacedKey customAchievementAwardedKey;
     private final ConcurrentHashMap<UUID, Long> lastCustomAnnounce = new ConcurrentHashMap<>();
 
     public AchievementListener(RelishTravel plugin, ConfigManager config) {
         this.plugin = plugin;
         this.config = config;
+        this.customAchievementAwardedKey = new NamespacedKey(plugin, "custom_achievement_awarded");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -60,7 +64,9 @@ public class AchievementListener implements Listener {
             plugin.getLogger().info("[DEBUG] Cancelled vanilla elytra criterion for " + player.getName() + " (using virtual elytra)");
         }
 
-        if (config.isGrantRelishAchievement() && shouldAnnounceCustom(player.getUniqueId())) {
+        if (config.isGrantRelishAchievement()
+            && !hasReceivedCustomAchievement(player)
+            && shouldAnnounceCustom(player.getUniqueId())) {
             grantCustomAchievement(player);
         }
     }
@@ -87,7 +93,9 @@ public class AchievementListener implements Listener {
             plugin.getLogger().info("[DEBUG] Revoked vanilla elytra advancement for " + player.getName() + " (fallback path)");
         }
 
-        if (config.isGrantRelishAchievement() && shouldAnnounceCustom(player.getUniqueId())) {
+        if (config.isGrantRelishAchievement()
+            && !hasReceivedCustomAchievement(player)
+            && shouldAnnounceCustom(player.getUniqueId())) {
             grantCustomAchievement(player);
         }
     }
@@ -124,12 +132,17 @@ public class AchievementListener implements Listener {
         String title = config.getCustomAchievementTitle();
         String description = config.getCustomAchievementDescription();
 
-        Component advancementComponent = Component.text("[" + title + "]", NamedTextColor.GREEN)
-            .hoverEvent(HoverEvent.showText(Component.text(description, NamedTextColor.GRAY)));
+        markCustomAchievementReceived(player);
 
-        // Keep player name styling as-is (vanilla-like), no forced name color.
-        Component message = player.displayName()
-            .append(Component.text(" has made the advancement ", NamedTextColor.GRAY))
+        Component hoverComponent = Component.text(title, NamedTextColor.GREEN)
+            .append(Component.newline())
+            .append(Component.text(description, NamedTextColor.GREEN));
+
+        Component advancementComponent = Component.text("[" + title + "]", NamedTextColor.GREEN)
+            .hoverEvent(HoverEvent.showText(hoverComponent));
+
+        Component message = Component.text(player.getName(), NamedTextColor.WHITE)
+            .append(Component.text(" has made the advancement ", NamedTextColor.WHITE))
             .append(advancementComponent);
 
         plugin.getServer().broadcast(message);
@@ -137,5 +150,14 @@ public class AchievementListener implements Listener {
         if (config.isDebugMode()) {
             plugin.getLogger().info("[DEBUG] Granted custom achievement to " + player.getName() + ": " + title);
         }
+    }
+
+    private boolean hasReceivedCustomAchievement(Player player) {
+        Byte awarded = player.getPersistentDataContainer().get(customAchievementAwardedKey, PersistentDataType.BYTE);
+        return awarded != null && awarded == (byte) 1;
+    }
+
+    private void markCustomAchievementReceived(Player player) {
+        player.getPersistentDataContainer().set(customAchievementAwardedKey, PersistentDataType.BYTE, (byte) 1);
     }
 }

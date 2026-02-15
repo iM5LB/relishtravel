@@ -2,6 +2,19 @@
 
 All notable changes to RelishTravel.
 
+## [1.0.2] - 2026-02-15
+
+### Fixed
+
+**Achievement System:**
+- Fixed custom RelishTravel achievement being granted repeatedly on later launches.
+- Added persistent per-player tracking so each player only receives the custom achievement once.
+
+**Custom Achievement Message:**
+- Updated announcement to a more vanilla-like style with white main text.
+- Kept achievement title in green and changed hover text to green.
+- Formatted announcement output into 2 lines.
+
 ## [1.0.1] - 2026-02-11
 
 ### Fixed
